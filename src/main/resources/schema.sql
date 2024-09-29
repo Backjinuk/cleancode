@@ -1,0 +1,34 @@
+
+-- LECTURE_APPLY 테이블 드랍 후 생성
+DROP TABLE IF EXISTS LECTURE_APPLY;
+
+-- LECTURE 테이블 드랍 후 생성
+DROP TABLE IF EXISTS LECTURE;
+
+-- MEMBER 테이블 드랍 후 생성
+DROP TABLE IF EXISTS MEMBER;
+
+CREATE TABLE MEMBER
+(
+    id   BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+
+CREATE TABLE LECTURE
+(
+    id               BIGINT AUTO_INCREMENT PRIMARY KEY,
+    title            VARCHAR(255) NOT NULL,
+    max_participants INT          NOT NULL,
+    status   VARCHAR(50)  NOT NULL
+);
+
+
+CREATE TABLE LECTURE_APPLY
+(
+    id         BIGINT AUTO_INCREMENT PRIMARY KEY,
+    member_id  BIGINT,
+    lecture_id BIGINT,
+    FOREIGN KEY (member_id) REFERENCES MEMBER (id),
+    FOREIGN KEY (lecture_id) REFERENCES LECTURE (id)
+);
