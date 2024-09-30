@@ -1,4 +1,4 @@
-package com.example.cleancode.service;
+package com.example.cleancode.application.service;
 
 import org.springframework.stereotype.Service;
 

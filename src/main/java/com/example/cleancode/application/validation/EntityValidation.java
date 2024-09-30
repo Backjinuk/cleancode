@@ -1,4 +1,4 @@
-package com.example.cleancode.util.validation;
+package com.example.cleancode.application.validation;
 
 import com.example.cleancode.domain.Lecture;
 import com.example.cleancode.domain.LectureApply;

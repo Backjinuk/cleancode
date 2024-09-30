@@ -1,13 +1,12 @@
 package com.example.cleancode.adapter.in.dto;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.example.cleancode.domain.LectureStatus;
-import com.example.cleancode.util.validation.DtoValidation;
+import com.example.cleancode.application.validation.DtoValidation;
 
 class LectureApplyDtoValidationTest {
 

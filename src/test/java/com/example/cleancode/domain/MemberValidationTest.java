@@ -2,7 +2,7 @@ package com.example.cleancode.domain;
 
 import static org.assertj.core.api.Assertions.*;
 
-import com.example.cleancode.util.validation.EntityValidation;
+import com.example.cleancode.application.validation.EntityValidation;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

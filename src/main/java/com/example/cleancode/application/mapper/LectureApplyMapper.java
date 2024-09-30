@@ -1,4 +1,4 @@
-package com.example.cleancode.util.mapper;
+package com.example.cleancode.application.mapper;
 
 import com.example.cleancode.domain.LectureApply;
 import com.example.cleancode.adapter.in.dto.LectureApplyDto;

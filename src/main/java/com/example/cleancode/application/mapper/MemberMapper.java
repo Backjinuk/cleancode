@@ -1,4 +1,4 @@
-package com.example.cleancode.util.mapper;
+package com.example.cleancode.application.mapper;
 
 import com.example.cleancode.domain.Member;
 import com.example.cleancode.adapter.in.dto.MemberDto;
@@ -6,7 +6,7 @@ import com.example.cleancode.adapter.in.dto.MemberDto;
 public class MemberMapper {
 
 	public static Member memberDtoToEntity(MemberDto memberDto){
-		if(memberDto != null){
+		if(memberDto == null){
 			throw new NullPointerException("memberDto의 값은 null일수 없습니다.");
 		}
 
