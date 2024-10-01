@@ -3,7 +3,7 @@ package com.example.cleancode;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.example.cleancode")
 public class CleancodeApplication {
 
 	public static void main(String[] args) {

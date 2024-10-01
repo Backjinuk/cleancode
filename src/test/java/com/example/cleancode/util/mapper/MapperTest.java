@@ -2,18 +2,20 @@ package com.example.cleancode.util.mapper;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.time.LocalDate;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.example.cleancode.adapter.in.dto.LectureApplyDto;
 import com.example.cleancode.adapter.in.dto.LectureDto;
+import com.example.cleancode.adapter.in.dto.LectureInstanceDto;
 import com.example.cleancode.adapter.in.dto.MemberDto;
-import com.example.cleancode.application.mapper.LectureApplyMapper;
+import com.example.cleancode.application.mapper.LectureInstanceMapper;
 import com.example.cleancode.application.mapper.LectureMapper;
 import com.example.cleancode.application.mapper.MemberMapper;
 import com.example.cleancode.domain.Lecture;
-import com.example.cleancode.domain.LectureApply;
+import com.example.cleancode.domain.LectureInstance;
 import com.example.cleancode.domain.LectureStatus;
 import com.example.cleancode.domain.Member;
 
@@ -21,10 +23,10 @@ import com.example.cleancode.domain.Member;
 class MapperTest {
 
 	@Test
-	@DisplayName("정상적인memberDto가 Entity로 변환")
+	@DisplayName("정상적인 memberDto가 Entity로 변환")
 	void 정상적인_memberDto가_Entity로_변환() {
 		// given
-		MemberDto memberDto = new MemberDto(1, "Member01");
+		MemberDto memberDto = new MemberDto(1L, "Member01");
 
 		// when
 		Member member = MemberMapper.memberDtoToEntity(memberDto);
@@ -52,7 +54,7 @@ class MapperTest {
 	@DisplayName("LectureDto에서 Lecture로 변환 테스트")
 	void LectureDto에서_Lecture로_변환_테스트() {
 		// given
-		LectureDto lectureDto = new LectureDto(1, "lecture101", 30, LectureStatus.OPEN);
+		LectureDto lectureDto = new LectureDto(1L, "lecture101", "John Doe");
 
 		// when
 		Lecture lecture = LectureMapper.lectureDtoToEntity(lectureDto);
@@ -60,15 +62,14 @@ class MapperTest {
 		// then
 		assertThat(lecture.getId()).isEqualTo(lectureDto.getId());
 		assertThat(lecture.getTitle()).isEqualTo(lectureDto.getTitle());
-		assertThat(lecture.getMaxParticipants()).isEqualTo(lectureDto.getMaxParticipants());
-		assertThat(lecture.getStatus()).isEqualTo(lectureDto.getStatus());
+		assertThat(lecture.getInstructor()).isEqualTo(lectureDto.getInstructor());
 	}
 
 	@Test
 	@DisplayName("Lecture에서 LectureDto로 변환")
 	void Lecture에서_LecutreDto로_변환() {
 		// given
-		Lecture lecture = new Lecture(1L, "lecture101", 30, LectureStatus.OPEN);
+		Lecture lecture = new Lecture(1L, "lecture101", "John Doe");
 
 		// when
 		LectureDto lectureDto = LectureMapper.lectureEntityToDto(lecture);
@@ -76,66 +77,48 @@ class MapperTest {
 		// then
 		assertThat(lectureDto.getId()).isEqualTo(lecture.getId());
 		assertThat(lectureDto.getTitle()).isEqualTo(lecture.getTitle());
-		assertThat(lectureDto.getMaxParticipants()).isEqualTo(lecture.getMaxParticipants());
-		assertThat(lectureDto.getStatus()).isEqualTo(lecture.getStatus());
-
+		assertThat(lectureDto.getInstructor()).isEqualTo(lecture.getInstructor());
 	}
 
 	@Test
-	@DisplayName("LectureApplyDto에서 LectureApply로 변환")
-	void LectureApplyDto에서_LectureApply로_변화() {
+	@DisplayName("LectureInstanceDto에서 LectureInstance로 변환 테스트")
+	void LectureInstanceDto에서_LectureInstance로_변환_테스트() {
 		// given
-		MemberDto memberDto = new MemberDto(1L, "Member01");
-		LectureDto lectureDto = new LectureDto(1L, "lecture101", 30, LectureStatus.OPEN);
-		LectureApplyDto lectureApplyDto = new LectureApplyDto(1L, memberDto, lectureDto);
+		LectureDto lectureDto = new LectureDto(1L, "lecture101", "John Doe");
+		LectureInstanceDto lectureInstanceDto = new LectureInstanceDto(1L, LocalDate.of(2024, 1, 1),
+			LocalDate.of(2024, 3, 1), 30, 10, lectureDto, LectureStatus.OPEN);
 
 		// when
-		LectureApply lectureApply = LectureApplyMapper.lectureApplyDtoToEntity(lectureApplyDto);
+		LectureInstance lectureInstance = LectureInstanceMapper.lectureInstanceDtoToEntity(lectureInstanceDto);
 
 		// then
-		// ID 검증
-		assertThat(lectureApply.getId()).isEqualTo(lectureApplyDto.getId());
-
-		// Lecture 검증
-		assertThat(lectureApply.getLecture().getId()).isEqualTo(lectureDto.getId());
-		assertThat(lectureApply.getLecture().getTitle()).isEqualTo(lectureDto.getTitle());
-		assertThat(lectureApply.getLecture().getMaxParticipants()).isEqualTo(lectureDto.getMaxParticipants());
-		assertThat(lectureApply.getLecture().getStatus()).isEqualTo(lectureDto.getStatus());
-
-		// Member 검증
-		assertThat(lectureApply.getMember().getId()).isEqualTo(memberDto.getId());
-		assertThat(lectureApply.getMember().getName()).isEqualTo(memberDto.getName());
+		assertThat(lectureInstance.getId()).isEqualTo(lectureInstanceDto.getId());
+		assertThat(lectureInstance.getStartDate()).isEqualTo(lectureInstanceDto.getStartDate());
+		assertThat(lectureInstance.getEndDate()).isEqualTo(lectureInstanceDto.getEndDate());
+		assertThat(lectureInstance.getMaxParticipants()).isEqualTo(lectureInstanceDto.getMaxParticipants());
+		assertThat(lectureInstance.getCurrentParticipants()).isEqualTo(lectureInstanceDto.getCurrentParticipants());
+		assertThat(lectureInstance.getLecture().getId()).isEqualTo(lectureInstanceDto.getLectureDto().getId());
+		assertThat(lectureInstance.getStatus()).isEqualTo(lectureInstanceDto.getStatus());
 	}
 
+	@Test
+	@DisplayName("LectureInstance에서 LectureInstanceDto로 변환")
+	void LectureInstance에서_LecutreInstanceDto로_변환() {
+		// given
+		Lecture lecture = new Lecture(1L, "lecture101", "John Doe");
+		LectureInstance lectureInstance = new LectureInstance(1L, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 3, 1),
+			30, 10, lecture, LectureStatus.OPEN);
 
-		@Test
-		@DisplayName("LectureApplyDto에서 LectureApply로 변환")
-		void LectureApplyDto에서_LectureApply로_변환() {
-			// given
-			Member member = new Member(1L, "Member01");
-			Lecture lecture = new Lecture(1L, "lecture101", 30, LectureStatus.OPEN);
-			LectureApply lectureApply = new LectureApply(1L, member, lecture);
+		// when
+		LectureInstanceDto lectureInstanceDto = LectureInstanceMapper.lectureInstanceEntityToDto(lectureInstance);
 
-			// when
-			// Mapper를 사용하지 않고, 실제 Entity 값을 이용해서 LectureApply 생성
-			LectureApplyDto lectureApplyDto = new LectureApplyDto(
-				lectureApply.getId(),
-				new MemberDto(member.getId(), member.getName()),
-				new LectureDto(lecture.getId(), lecture.getTitle(), lecture.getMaxParticipants(), lecture.getStatus())
-			);
-
-			// then
-			// ID 검증
-			assertThat(lectureApply.getId()).isEqualTo(lectureApplyDto.getId());
-
-			// Lecture 검증
-			assertThat(lectureApply.getLecture().getId()).isEqualTo(lectureApplyDto.getLectureDto().getId());
-			assertThat(lectureApply.getLecture().getTitle()).isEqualTo(lectureApplyDto.getLectureDto().getTitle());
-			assertThat(lectureApply.getLecture().getMaxParticipants()).isEqualTo(lectureApplyDto.getLectureDto().getMaxParticipants());
-			assertThat(lectureApply.getLecture().getStatus()).isEqualTo(lectureApplyDto.getLectureDto().getStatus());
-
-			// Member 검증
-			assertThat(lectureApply.getMember().getId()).isEqualTo(lectureApplyDto.getMemberDto().getId());
-			assertThat(lectureApply.getMember().getName()).isEqualTo(lectureApplyDto.getMemberDto().getName());
-		}
+		// then
+		assertThat(lectureInstanceDto.getId()).isEqualTo(lectureInstance.getId());
+		assertThat(lectureInstanceDto.getStartDate()).isEqualTo(lectureInstance.getStartDate());
+		assertThat(lectureInstanceDto.getEndDate()).isEqualTo(lectureInstance.getEndDate());
+		assertThat(lectureInstanceDto.getMaxParticipants()).isEqualTo(lectureInstance.getMaxParticipants());
+		assertThat(lectureInstanceDto.getCurrentParticipants()).isEqualTo(lectureInstance.getCurrentParticipants());
+		assertThat(lectureInstanceDto.getLectureDto().getId()).isEqualTo(lecture.getId());
+		assertThat(lectureInstanceDto.getStatus()).isEqualTo(lectureInstance.getStatus());
+	}
 }

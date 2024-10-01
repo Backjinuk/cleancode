@@ -12,7 +12,7 @@ public class LectureApplyMapper {
 
 		return new LectureApply(lectureApplyDto.getId(),
 			MemberMapper.memberDtoToEntity(lectureApplyDto.getMemberDto()),
-			LectureMapper.lectureDtoToEntity(lectureApplyDto.getLectureDto())
+			LectureInstanceMapper.lectureInstanceDtoToEntity(lectureApplyDto.getLectureInstanceDto())
 		);
 	}
 
@@ -24,7 +24,8 @@ public class LectureApplyMapper {
 
 		return new LectureApplyDto(lectureApply.getId(),
 			MemberMapper.memberEntityToDto(lectureApply.getMember()),
-			LectureMapper.lectureEntityToDto(lectureApply.getLecture())
+			LectureInstanceMapper.lectureInstanceEntityToDto(lectureApply.getLectureInstance())
+
 		);
 	}
 }

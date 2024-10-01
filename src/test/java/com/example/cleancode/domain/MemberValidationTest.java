@@ -2,10 +2,11 @@ package com.example.cleancode.domain;
 
 import static org.assertj.core.api.Assertions.*;
 
-import com.example.cleancode.application.validation.EntityValidation;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import com.example.cleancode.application.validation.EntityValidation;
 
 @SpringBootTest
 class MemberValidationTest {
@@ -76,9 +77,8 @@ class MemberValidationTest {
 		Member invalidMember = new Member(0L, "John Doe");
 
 		// when & then
-		assertThatThrownBy(() -> EntityValidation.validationMember(invalidMember))
-			.isInstanceOf(IllegalArgumentException.class)
-			.hasMessageContaining("memberId는 1이상의 값이어야 합니다.");
+		assertThatThrownBy(() -> EntityValidation.validationMember(invalidMember)).isInstanceOf(
+			IllegalArgumentException.class).hasMessageContaining("memberId는 1이상의 값이어야 합니다.");
 	}
 
 	@Test
@@ -88,9 +88,8 @@ class MemberValidationTest {
 		Member invalidMember = new Member(-1L, "John Doe");
 
 		// when & then
-		assertThatThrownBy(() -> EntityValidation.validationMember(invalidMember))
-			.isInstanceOf(IllegalArgumentException.class)
-			.hasMessageContaining("memberId는 1이상의 값이어야 합니다.");
+		assertThatThrownBy(() -> EntityValidation.validationMember(invalidMember)).isInstanceOf(
+			IllegalArgumentException.class).hasMessageContaining("memberId는 1이상의 값이어야 합니다.");
 	}
 
 	@Test
@@ -100,9 +99,8 @@ class MemberValidationTest {
 		Member invalidMember = new Member(1L, "");
 
 		// when & then
-		assertThatThrownBy(() -> EntityValidation.validationMember(invalidMember))
-			.isInstanceOf(IllegalArgumentException.class)
-			.hasMessageContaining("이름은 10자를 초과할 수 없습니다.");
+		assertThatThrownBy(() -> EntityValidation.validationMember(invalidMember)).isInstanceOf(
+			IllegalArgumentException.class).hasMessageContaining("이름은 10자를 초과할 수 없습니다.");
 	}
 
 	@Test
@@ -113,8 +111,7 @@ class MemberValidationTest {
 		Member invalidMember = new Member(1L, tooLongName);
 
 		// when & then
-		assertThatThrownBy(() -> EntityValidation.validationMember(invalidMember))
-			.isInstanceOf(IllegalArgumentException.class)
-			.hasMessageContaining("이름은 10자를 초과할 수 없습니다.");
+		assertThatThrownBy(() -> EntityValidation.validationMember(invalidMember)).isInstanceOf(
+			IllegalArgumentException.class).hasMessageContaining("이름은 10자를 초과할 수 없습니다.");
 	}
 }

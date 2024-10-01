@@ -53,6 +53,6 @@ INSERT INTO MEMBER (id, name) VALUES (50, 'Member50');
 
 
 /* 강의 등록 */
-INSERT INTO LECTURE (id, title, max_participants, status) VALUES (1, 'Clean Architecture 101', 30, 'OPEN');
+INSERT INTO LECTURE (id, title,  status) VALUES (1, 'Clean Architecture 101',  'OPEN');
 
-INSERT INTO LECTURE (id, title, max_participants, status) VALUES (2, 'Clean Architecture 102', 30, 'OPEN');
+INSERT INTO LECTURE (id, title,  status) VALUES (2, 'Clean Architecture 102',  'OPEN');

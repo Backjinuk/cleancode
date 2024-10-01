@@ -8,7 +8,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,7 +31,7 @@ public class LectureApply {
 	private Member member;
 
 	@ManyToOne
-	@JoinColumn(name = "lecture_id")  // 외래 키 컬럼은 "lecture_id"로 지정
-	@NotNull(message = "Lecture는 null일 수 없습니다.")  // Lecture는 null이 될 수 없음
-	private Lecture lecture;
+	@JoinColumn(name = "lecture_instance_id")  // 외래 키 컬럼은 "lecture_id"로 지정
+	@NotNull(message = "lecture_instance_id null일 수 없습니다.")  // Lecture는 null이 될 수 없음
+	private LectureInstance lectureInstance;
 }

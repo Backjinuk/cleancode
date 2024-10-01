@@ -30,11 +30,8 @@ public class Lecture {
 	@Size(max = 255, message = "강의 제목은 255자를 초과할 수 없습니다.")
 	private String title;
 
-	@Min(value = 1, message = "참가자 수는 1 이상이어야 합니다.")
-	private long maxParticipants;
 
-	@Enumerated(EnumType.STRING)
-	@NotNull(message = "강의 상태는 반드시 필요합니다.")
-	private LectureStatus status;
+	@NotBlank(message = "강사의 정보는 비어있을수 없습니다.")
+	private String instructor;
 
 }

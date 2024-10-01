@@ -1,10 +1,12 @@
 package com.example.cleancode.adapter.in.dto;
 
 import static org.assertj.core.api.Assertions.*;
-import com.example.cleancode.application.validation.DtoValidation;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import com.example.cleancode.application.validation.DtoValidation;
 
 @SpringBootTest
 class MemberDtoValidationTest {
@@ -75,9 +77,8 @@ class MemberDtoValidationTest {
 		MemberDto invalidMemberDto = new MemberDto(0L, "John Doe");
 
 		// when & then
-		assertThatThrownBy(() -> DtoValidation.validationMemberDto(invalidMemberDto))
-			.isInstanceOf(IllegalArgumentException.class)
-			.hasMessageContaining("MemberDtoId는 1이상의 값이어야 합니다.");
+		assertThatThrownBy(() -> DtoValidation.validationMemberDto(invalidMemberDto)).isInstanceOf(
+			IllegalArgumentException.class).hasMessageContaining("MemberDtoId는 1이상의 값이어야 합니다.");
 	}
 
 	@Test
@@ -87,9 +88,8 @@ class MemberDtoValidationTest {
 		MemberDto invalidMemberDto = new MemberDto(-1L, "John Doe");
 
 		// when & then
-		assertThatThrownBy(() -> DtoValidation.validationMemberDto(invalidMemberDto))
-			.isInstanceOf(IllegalArgumentException.class)
-			.hasMessageContaining("MemberDtoId는 1이상의 값이어야 합니다.");
+		assertThatThrownBy(() -> DtoValidation.validationMemberDto(invalidMemberDto)).isInstanceOf(
+			IllegalArgumentException.class).hasMessageContaining("MemberDtoId는 1이상의 값이어야 합니다.");
 	}
 
 	@Test
@@ -99,9 +99,8 @@ class MemberDtoValidationTest {
 		MemberDto invalidMemberDto = new MemberDto(1L, "");
 
 		// when & then
-		assertThatThrownBy(() -> DtoValidation.validationMemberDto(invalidMemberDto))
-			.isInstanceOf(IllegalArgumentException.class)
-			.hasMessageContaining("이름은 10자를 초과할 수 없습니다.");
+		assertThatThrownBy(() -> DtoValidation.validationMemberDto(invalidMemberDto)).isInstanceOf(
+			IllegalArgumentException.class).hasMessageContaining("이름은 10자를 초과할 수 없습니다.");
 	}
 
 	@Test
@@ -112,8 +111,7 @@ class MemberDtoValidationTest {
 		MemberDto invalidMemberDto = new MemberDto(1L, tooLongName);
 
 		// when & then
-		assertThatThrownBy(() -> DtoValidation.validationMemberDto(invalidMemberDto))
-			.isInstanceOf(IllegalArgumentException.class)
-			.hasMessageContaining("이름은 10자를 초과할 수 없습니다.");
+		assertThatThrownBy(() -> DtoValidation.validationMemberDto(invalidMemberDto)).isInstanceOf(
+			IllegalArgumentException.class).hasMessageContaining("이름은 10자를 초과할 수 없습니다.");
 	}
 }

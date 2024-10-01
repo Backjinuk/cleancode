@@ -19,5 +19,5 @@ public class LectureApplyDto {
 	private MemberDto memberDto;
 
 	@NotNull(message = "lectureDto는 null일 수 없습니다.")
-	private LectureDto lectureDto;
+	private LectureInstanceDto lectureInstanceDto;
 }

@@ -22,9 +22,5 @@ public class LectureDto {
 	@Size(max = 255, message = "강의 제목은 255자를 초과할 수 없습니다.")
 	String title;
 
-	@Min(value = 1, message = "참가자 수는 1이상이여야 합니다.")
-	long maxParticipants;
-
-	@NotNull(message = "강의 상태는 반드시 필요합니다.")
-	LectureStatus status;
+	String instructor;
 }

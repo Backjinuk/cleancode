@@ -10,7 +10,7 @@ public class LectureMapper {
 			throw new NullPointerException("lectureDto의 값은 null일 수 없습니다.");
 		}
 
-		return new Lecture(lectureDto.getId(), lectureDto.getTitle(), lectureDto.getMaxParticipants(), lectureDto.getStatus());
+		return new Lecture(lectureDto.getId(), lectureDto.getTitle(),  lectureDto.getInstructor());
 	}
 
 
@@ -19,6 +19,6 @@ public class LectureMapper {
 			throw new NullPointerException("lecture의 값은 null일수 없습니다.");
 		}
 
-		return new LectureDto(lecture.getId(), lecture.getTitle(), lecture.getMaxParticipants(), lecture.getStatus());
+		return new LectureDto(lecture.getId(), lecture.getTitle(),  lecture.getInstructor());
 	}
 }
