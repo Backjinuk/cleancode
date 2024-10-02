@@ -3,7 +3,7 @@ spring:
     name: cleancode
 
   datasource:
-    url: 'jdbc:h2:tcp://localhost/~/cleancode'
+    url: 'jdbc:h2:file:/db/H2/cleancode;AUTO_SERVER=true'
     username: 'sa'
     password:
     driver-class-name: org.h2.Driver

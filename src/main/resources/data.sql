@@ -53,6 +53,12 @@ INSERT INTO MEMBER (id, name) VALUES (50, 'Member50');
 
 
 /* 강의 등록 */
-INSERT INTO LECTURE (id, title,  status) VALUES (1, 'Clean Architecture 101',  'OPEN');
+INSERT INTO LECTURE (id, title,  instructor) VALUES (1, 'Clean Architecture',  '허재');
 
-INSERT INTO LECTURE (id, title,  status) VALUES (2, 'Clean Architecture 102',  'OPEN');
+INSERT INTO LECTURE (id, title,  instructor) VALUES (2, 'Domain-Driven Design',  '로이');
+
+-- Dummy data for LECTURE_INSTANCE
+INSERT INTO LECTURE_INSTANCE (start_date, end_date, max_participants, current_participants, lecture_id) VALUES
+('2024-01-01', '2024-01-30', 30, 0, 1), -- Clean Architecture
+('2024-02-01', '2024-02-28', 25, 0, 1), -- Clean Architecture
+('2024-03-01', '2024-03-30', 20, 0, 2);  -- Domain-Driven Design

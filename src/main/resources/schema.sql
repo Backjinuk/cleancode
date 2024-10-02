@@ -10,7 +10,6 @@ DROP TABLE IF EXISTS LECTURE;
 -- MEMBER 테이블 드랍 후 생성
 DROP TABLE IF EXISTS MEMBER;
 
-
 -- MEMBER 테이블 생성
 CREATE TABLE MEMBER
 (
@@ -23,7 +22,7 @@ CREATE TABLE LECTURE
 (
     id               BIGINT AUTO_INCREMENT PRIMARY KEY,
     title            VARCHAR(255) NOT NULL,
-    status           VARCHAR(50)  NOT NULL
+    instructor          VARCHAR(50)  NOT NULL
 );
 
 -- LECTURE_INSTANCE 테이블 생성

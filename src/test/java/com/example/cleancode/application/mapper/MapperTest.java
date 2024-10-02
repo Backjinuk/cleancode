@@ -1,4 +1,4 @@
-package com.example.cleancode.util.mapper;
+package com.example.cleancode.application.mapper;
 
 import static org.assertj.core.api.Assertions.*;
 
