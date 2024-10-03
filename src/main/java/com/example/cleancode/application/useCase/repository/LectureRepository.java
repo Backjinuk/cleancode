@@ -13,5 +13,9 @@ public interface LectureRepository {
 
 	Lecture getLectureById(long l);
 
+	Lecture addLecture(Lecture lecture);
 
+	Lecture updateLecture(Lecture existingLecture);
+
+	boolean deleteLecture(Long lectureId);
 }

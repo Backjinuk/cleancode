@@ -32,6 +32,7 @@ CREATE TABLE LECTURE_INSTANCE
     start_date           DATE NOT NULL,
     end_date             DATE NOT NULL,
     max_participants     INT NOT NULL,
+    status               VARCHAR(255),
     current_participants INT NOT NULL,
     lecture_id           BIGINT,
     FOREIGN KEY (lecture_id) REFERENCES LECTURE(id)

@@ -24,5 +24,7 @@ public class LectureInstanceDto {
 	@NotNull(message = "강의 상태는 반드시 필요합니다.")
 	private LectureStatus status;
 
-
+	public LectureInstanceDto(Long lectureInstanceId) {
+		this.id = lectureInstanceId;
+	}
 }

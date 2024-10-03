@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import com.example.cleancode.application.validation.DtoValidation;
 
 class LectureDtoValidationTest {
+
 	/*
 	 * LectureDtoEntity
 	 *

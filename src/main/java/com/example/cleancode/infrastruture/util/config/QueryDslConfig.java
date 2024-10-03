@@ -1,14 +1,15 @@
-package com.example.cleancode.util.config;
+package com.example.cleancode.infrastruture.util.config;
 
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
-@Configurable
+@Configuration
 public class QueryDslConfig {
 
 	@PersistenceContext

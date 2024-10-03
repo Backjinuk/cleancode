@@ -6,7 +6,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,8 +21,7 @@ public class LectureApply {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Min(value = 1, message = "lectureApplyId는 1이상의 값이어야 합니다")
-	private long id;
+	private Long id;
 
 	@ManyToOne
 	@JoinColumn(name = "member_id")  // 외래 키 컬럼은 "member_id"로 지정

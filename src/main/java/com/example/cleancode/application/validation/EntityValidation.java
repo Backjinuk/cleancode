@@ -2,6 +2,8 @@ package com.example.cleancode.application.validation;
 
 import java.util.Objects;
 
+import javax.swing.text.html.parser.Entity;
+
 import com.example.cleancode.domain.Lecture;
 import com.example.cleancode.domain.LectureApply;
 import com.example.cleancode.domain.LectureInstance;
@@ -50,6 +52,8 @@ public class EntityValidation {
 			throw new NullPointerException("LectureInstance는 null일 수 없습니다.");
 		}
 
+		EntityValidation.validationMember(lectureApply.getMember());
+		EntityValidation.validateLectureInstance(lectureApply.getLectureInstance());
 	}
 
 	public static void validateLectureInstance(LectureInstance lectureInstance) {
@@ -87,13 +91,15 @@ public class EntityValidation {
 		}
 
 		// 강의 상태 검증
-		if (Objects.isNull(lectureInstance.getStatus())) {
+		if (lectureInstance.getStatus() == null) {
 			throw new NullPointerException("강의 상태는 반드시 필요합니다.");
 		}
 
 		// 강의 검증
-		if (Objects.isNull(lectureInstance.getLecture())) {
+		if (lectureInstance.getLecture() == null) {
 			throw new NullPointerException("Lecture는 null일 수 없습니다.");
 		}
+
+		EntityValidation.validationLecture(lectureInstance.getLecture());
 	}
 }

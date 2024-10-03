@@ -7,6 +7,9 @@ import com.example.cleancode.domain.LectureInstance;
 public class LectureInstanceMapper {
 
 	public static LectureInstanceDto lectureInstanceEntityToDto(LectureInstance lectureInstance) {
+		if (lectureInstance == null) {
+			throw new NullPointerException("LectureInstance는 null일 수 없습니다.");
+		}
 		return new LectureInstanceDto(
 			lectureInstance.getId(),
 			lectureInstance.getStartDate(),
@@ -18,7 +21,12 @@ public class LectureInstanceMapper {
 		);
 	}
 
+
 	public static LectureInstance lectureInstanceDtoToEntity(LectureInstanceDto dto) {
+		if (dto == null) {
+			throw new NullPointerException("LectureInstanceDto는 null일 수 없습니다.");
+		}
+
 		LectureInstance lectureInstance = new LectureInstance();
 		lectureInstance.setId(dto.getId());
 		lectureInstance.setStartDate(dto.getStartDate());
@@ -28,6 +36,8 @@ public class LectureInstanceMapper {
 		lectureInstance.setStatus(dto.getStatus());
 		lectureInstance.setLecture(LectureMapper.lectureDtoToEntity(dto.getLectureDto()));
 
+
 		return lectureInstance;
 	}
+
 }

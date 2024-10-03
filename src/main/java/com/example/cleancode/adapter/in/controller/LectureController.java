@@ -1,56 +1,50 @@
 package com.example.cleancode.adapter.in.controller;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping("/users/{userId}/lectures")
-public class LectureController {
+import com.example.cleancode.adapter.in.dto.LectureDto;
+import com.example.cleancode.application.useCase.LectureUseCaseService;
 
-	/*
-	 * TODO - 특정 유저의 특강을 조회할 수 있는 메서드 구현
-	 * 설명: 주어진 유저 ID로 해당 유저가 신청한 특강 목록을 반환하는 메서드
-	 */
-	@GetMapping
-	public ResponseEntity<?> getUserLectures(@PathVariable Long userId) {
-		return ResponseEntity.ok("특강 목록을 반환합니다.");
+import java.util.List;
+
+@RestController
+@RequestMapping("/lectures")
+class LectureController {
+
+	private final LectureUseCaseService lectureUseCaseService;
+
+	// Constructor Injection
+	public LectureController(LectureUseCaseService lectureUseCaseService) {
+		this.lectureUseCaseService = lectureUseCaseService;
 	}
 
-	/*
-	 * TODO - 특정 유저의 특강을 신청할 수 있는 메서드 구현
-	 * 설명: 주어진 유저 ID와 특강 ID로 유저가 특강을 신청하는 메서드
-	 */
-	@GetMapping("/{lectureId}/apply")
-	public ResponseEntity<?> applyToLecture(@PathVariable Long userId, @PathVariable Long lectureId) {
-		return ResponseEntity.ok("특강 신청 완료");
+	// 강의 추가 - POST 요청
+	@RequestMapping(value = "/addLecture", method = RequestMethod.POST)
+	public LectureDto addLecture(@RequestBody LectureDto lectureDto) {
+		return lectureUseCaseService.addLecture(lectureDto);
 	}
 
-	/*
-	 * TODO - 특정 유저의 특강을 취소할 수 있는 메서드 구현
-	 * 설명: 주어진 유저 ID와 특강 ID로 유저가 신청한 특강을 취소하는 메서드
-	 */
-	@GetMapping("/{lectureId}/cancel")
-	public ResponseEntity<?> cancelLecture(@PathVariable Long userId, @PathVariable Long lectureId) {
-		return ResponseEntity.ok("특강 신청 취소 완료");
+	// 모든 강의 리스트 조회 - GET 요청
+	@RequestMapping(value = "/getAllLectures", method = RequestMethod.GET)
+	public List<LectureDto> getAllLectures() {
+		return lectureUseCaseService.getAllLectureList();
 	}
 
-	/*
-	 * TODO - 신청 가능한 특강을 조회할 수 있는 메서드 구현
-	 * 설명: 현재 신청 가능한 특강 목록을 조회하여 반환하는 메서드
-	 */
-	@GetMapping("/available")
-	public ResponseEntity<?> getAvailableLectures(@PathVariable Long userId) {
-		return ResponseEntity.ok("신청 가능한 특강 목록을 반환합니다.");
+	// 특정 강의 조회 - GET 요청 (강의 ID로 조회)
+	@RequestMapping(value = "/getLectureById/{id}", method = RequestMethod.GET)
+	public LectureDto getLectureById(@PathVariable long id) {
+		return lectureUseCaseService.getLectureById(id);
 	}
 
-	/*
-	 * TODO - 특정 유저의 모든 특강을 취소할 수 있는 메서드 구현
-	 * 설명: 주어진 유저 ID로 해당 유저가 신청한 모든 특강을 취소하는 메서드
-	 */
-	@GetMapping("/cancel-all")
-	public ResponseEntity<?> cancelAllLectures(@PathVariable Long userId) {
-		return ResponseEntity.ok("모든 특강 신청 취소 완료");
+	// 강의 삭제 - DELETE 요청 (강의 ID로 삭제)
+	@RequestMapping(value = "/deleteLecture/{id}", method = RequestMethod.DELETE)
+	public boolean deleteLecture(@PathVariable long id) {
+		return lectureUseCaseService.deleteLecture(id);
 	}
 
+	// 강의 수정 - PUT 요청
+	@RequestMapping(value = "/updateLecture", method = RequestMethod.PUT)
+	public void updateLecture(@RequestBody LectureDto lectureDto) {
+		lectureUseCaseService.updateLecture(lectureDto);
+	}
 }

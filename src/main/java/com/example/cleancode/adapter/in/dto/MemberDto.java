@@ -6,9 +6,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class MemberDto {
 
 	@NotNull(message =  "memberId는 반드시 필요합니다.")
@@ -19,4 +21,7 @@ public class MemberDto {
 	@Size(max = 5, message = "이름은 5자를 초과할 수 없습니다.")
 	public String name;
 
+	public MemberDto(Long memberId) {
+		this.id = memberId;
+	}
 }

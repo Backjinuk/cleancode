@@ -18,6 +18,6 @@ public class LectureApplyDto {
 	@NotNull(message = "memberDtos는 null일 수 없습니다.")
 	private MemberDto memberDto;
 
-	@NotNull(message = "lectureDto는 null일 수 없습니다.")
+	@NotNull(message = "lectureInstanceDto는 null일 수 없습니다.")
 	private LectureInstanceDto lectureInstanceDto;
 }
