@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.cleancode.adapter.in.dto.LectureInstanceDto;
 import com.example.cleancode.application.mapper.LectureInstanceMapper;
@@ -12,14 +13,20 @@ import com.example.cleancode.application.useCase.repository.LectureInstanceRepos
 import com.example.cleancode.application.validation.EntityValidation;
 import com.example.cleancode.domain.LectureInstance;
 
+import jakarta.persistence.LockModeType;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+
 @Service
 public class LectureInstanceService {
 
 	private final LectureInstanceRepository lectureInstanceRepository;
+	private final LectureService lectureService;
 
 	@Autowired
-	public LectureInstanceService(LectureInstanceRepository lectureInstanceRepository) {
+	public LectureInstanceService(LectureInstanceRepository lectureInstanceRepository, LectureService lectureService) {
 		this.lectureInstanceRepository = lectureInstanceRepository;
+		this.lectureService = lectureService;
 	}
 
 	public boolean addLectureInLectureInstance(LectureInstanceDto lectureInstanceDto) {
@@ -39,9 +46,16 @@ public class LectureInstanceService {
 			.toList();
 	}
 
+	@Transactional
 	public LectureInstanceDto incrementCurrentParticipants(LectureInstanceDto lectureInstanceDto) {
+		lectureInstanceDto.setCurrentParticipants(lectureInstanceDto.getCurrentParticipants() + 1);
+
+		LectureInstance lectureInstance1 = lectureInstanceRepository.getLectureInstance(lectureInstanceDto.getId());
+
+		if(lectureInstance1 == null){
+			throw new NullPointerException("인스턴스가 존재하지 않습니다.");
+		}
 		LectureInstance lectureInstance = LectureInstanceMapper.lectureInstanceDtoToEntity(lectureInstanceDto);
-		lectureInstance.setCurrentParticipants(lectureInstance.getCurrentParticipants() + 1);
 		EntityValidation.validateLectureInstance(lectureInstance);
 
 		return LectureInstanceMapper.lectureInstanceEntityToDto(
@@ -54,6 +68,8 @@ public class LectureInstanceService {
 		if (lectureInstance == null) {
 			throw new NullPointerException("해당 강의 인스턴스는 존재하지 않습니다.");
 		}
+
+
 		return LectureInstanceMapper.lectureInstanceEntityToDto(lectureInstance);
 	}
 
@@ -101,4 +117,6 @@ public class LectureInstanceService {
 		return lectureInstanceRepository.getLectureInstancesByIdAndDate(id, date).stream().map(
 			LectureInstanceMapper::lectureInstanceEntityToDto).toList();
 	}
+
+
 }

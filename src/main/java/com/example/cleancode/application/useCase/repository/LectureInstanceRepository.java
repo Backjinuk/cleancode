@@ -6,6 +6,8 @@ import java.util.List;
 import com.example.cleancode.adapter.in.dto.LectureInstanceDto;
 import com.example.cleancode.domain.LectureInstance;
 
+import jakarta.persistence.LockModeType;
+
 public interface LectureInstanceRepository {
 
 	boolean addLectureInstance(LectureInstance lectureInstance);
@@ -23,4 +25,6 @@ public interface LectureInstanceRepository {
 	boolean deleteLectureInstance(Long lectureInstanceId);
 
 	List<LectureInstance> getLectureInstancesByIdAndDate(Long id, LocalDate date);
+
+
 }

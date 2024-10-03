@@ -9,10 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.cleancode.adapter.in.dto.LectureInstanceDto;
 import com.example.cleancode.application.useCase.repository.LectureInstanceRepository;
 import com.example.cleancode.domain.LectureInstance;
+import com.example.cleancode.domain.QLecture;
 import com.example.cleancode.domain.QLectureInstance;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.LockModeType;
 import jakarta.persistence.PersistenceContext;
 
 @Repository
@@ -31,7 +33,6 @@ public class LectureInstanceRepositoryImpl implements LectureInstanceRepository 
 	@Transactional
 	public boolean addLectureInstance(LectureInstance lectureInstance) {
 		lectureInstance.setId(null);
-
 		entityManager.persist(lectureInstance);
 		return true;
 	}
@@ -45,22 +46,35 @@ public class LectureInstanceRepositoryImpl implements LectureInstanceRepository 
 			.fetch();
 	}
 
+
+
 	@Override
 	@Transactional
 	public LectureInstance increnentCurrentParticpants(LectureInstance lectureInstance) {
-		lectureInstance.setCurrentParticipants(lectureInstance.getCurrentParticipants() + 1);
 		entityManager.merge(lectureInstance);
 		return lectureInstance;
 	}
 
+	@Transactional
 	@Override
 	public LectureInstance getLectureInstance(Long id) {
 		QLectureInstance qLectureInstance = QLectureInstance.lectureInstance;
+		QLecture qLecture = QLecture.lecture;  // QLecture 객체 추가
 
-		return queryFactory
+		// LectureInstance와 Lecture를 JOIN하여 조회
+		LectureInstance lectureInstance = queryFactory
 			.selectFrom(qLectureInstance)
+			.join(qLectureInstance.lecture, qLecture).fetchJoin()  // Lecture와 JOIN 수행
 			.where(qLectureInstance.id.eq(id))
+			.setLockMode(LockModeType.PESSIMISTIC_WRITE)  // 비관적 락 설정
+			.setHint("javax.persistence.lock.timeout", 5000)  // 5초 타임아웃 설정
 			.fetchOne();
+
+		if (lectureInstance == null) {
+			throw new RuntimeException("LectureInstance를 찾을 수 없습니다.");
+		}
+
+		return lectureInstance;
 	}
 
 	@Override
@@ -115,6 +129,5 @@ public class LectureInstanceRepositoryImpl implements LectureInstanceRepository 
 				.and(qLectureInstance.startDate.eq(date)))
 			.fetch();
 	}
-
 
 }

@@ -17,6 +17,7 @@ import com.example.cleancode.domain.QLectureInstance;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.LockModeType;
 import jakarta.persistence.PersistenceContext;
 
 @Repository
@@ -74,6 +75,8 @@ public class LectureApplyRepositoryImpl implements LectureApplyRepository {
 			.selectFrom(qLectureApply)
 			.where(qLectureApply.member.id.eq(memberId)
 				.and(qLectureApply.lectureInstance.id.eq(lectureInstanceId)))
+			.setLockMode(LockModeType.PESSIMISTIC_WRITE)  // 비관적 락 적용
+			.setHint("javax.persistence.lock.timeout", 5000)  // 타임아웃 5초 설정
 			.fetch();  // 특정 회원과 강의 인스턴스에 해당하는 신청 내역 조회
 	}
 

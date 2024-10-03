@@ -4,17 +4,20 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.cleancode.adapter.in.dto.LectureApplyDto;
 import com.example.cleancode.adapter.in.dto.LectureInstanceDto;
 import com.example.cleancode.adapter.in.dto.MemberDto;
-import com.example.cleancode.application.mapper.LectureApplyMapper;
+
 import com.example.cleancode.application.service.LectureApplyService;
 import com.example.cleancode.application.service.LectureInstanceService;
 import com.example.cleancode.application.service.LectureService;
 import com.example.cleancode.application.validation.DtoValidation;
-import com.example.cleancode.domain.LectureApply;
+
 import com.example.cleancode.domain.LectureStatus;
+
 
 @Service
 public class LectureApplyUseCaseService {
@@ -30,43 +33,31 @@ public class LectureApplyUseCaseService {
 		this.lectureService = lectureService;
 	}
 
+
+	@Transactional
 	public void applyForLecture(MemberDto memberDto, LectureInstanceDto lectureInstanceDto) {
-		DtoValidation.validationMemberDto(memberDto);
+		// 비관적 락을 걸고, 트랜잭션 내에서 동시성 문제를 해결
+		LectureInstanceDto lectureInstance = lectureInstanceService.getLectureInstance(lectureInstanceDto.getId());
 
-		System.out.println("lectureInstanceDto.getStatus() : " + lectureInstanceDto.getStatus());
-		DtoValidation.validateLectureInstanceDto(lectureInstanceDto);
+		List<LectureApplyDto> lectureApplyDtoList = lectureApplyService.getLectureApplyInfoByMemberAndLectureInstance(
+			memberDto.id, lectureInstanceDto.getId());
 
-		// 1. 회원이 해당 강의 신청한 내역이 있는지 확인
-		List<LectureApplyDto> existingApplications = lectureApplyService.getLectureApplyInfoByMemberAndLectureInstance(memberDto.getId(), lectureInstanceDto.getId());
-
-		if (!existingApplications.isEmpty()) {
-			throw new IllegalArgumentException("이미 신청한 강의입니다.");
+		if(!lectureApplyDtoList.isEmpty()){
+			throw new IllegalArgumentException("이미 신청된 강의 목록입니다.");
 		}
 
-		LectureInstanceDto lectureInstance = lectureInstanceService.getLectureInstance(lectureInstanceDto.getId());
-		System.out.println("lectureInstance : " + lectureInstance.getStatus());
-
-		DtoValidation.validateLectureInstanceDto(lectureInstance);
-
-		// 2. 해당 강의의 현재 인원수 확인
 		if (lectureInstance.getCurrentParticipants() >= lectureInstance.getMaxParticipants()) {
 			throw new IllegalArgumentException("현재 인원수가 최대 수강 인원을 초과할 수 없습니다.");
 		}
 
-		// 3. 해당 강의의 상태 확인
-		if (lectureInstance.getStatus() != LectureStatus.OPEN) {
-			throw new IllegalArgumentException("현재 신청할 수 없는 강의입니다.");
-		}
+		// 참가자 수 증가
+		lectureInstanceService.incrementCurrentParticipants(lectureInstanceDto);
 
-		// 4. 해당 강의의 날짜 확인
-		if (lectureInstance.getStartDate().isBefore(LocalDate.now())) {
-			throw new IllegalArgumentException("강의 시작일은 오늘 이후여야 합니다.");
-		}
-
-		// 5. 해당 강의 신청
+		// 강의 신청 처리
 		LectureApplyDto lectureApplyDto = new LectureApplyDto(Long.MAX_VALUE, memberDto, lectureInstanceDto);
 		lectureApplyService.addLectureApplyInMember(lectureApplyDto);
 	}
+
 
 	// Cancel a lecture application
 	public void cancelLectureApplication(MemberDto memberDto, LectureInstanceDto lectureInstanceDto) {

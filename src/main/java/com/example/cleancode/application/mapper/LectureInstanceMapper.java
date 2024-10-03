@@ -10,6 +10,7 @@ public class LectureInstanceMapper {
 		if (lectureInstance == null) {
 			throw new NullPointerException("LectureInstance는 null일 수 없습니다.");
 		}
+
 		return new LectureInstanceDto(
 			lectureInstance.getId(),
 			lectureInstance.getStartDate(),
