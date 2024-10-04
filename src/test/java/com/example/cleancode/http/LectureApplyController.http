@@ -1,0 +1,101 @@
+### 1. 강의 신청 (POST 요청)
+POST http://localhost:8080/LectureApply/applyForLecture
+Content-Type: application/json
+
+{
+  "memberDto": {
+    "id": 1,
+    "name": "Member01"
+  },
+  "lectureInstanceDto": {
+    "id": 1,
+    "startDate": "2024-11-01",
+    "endDate": "2024-12-10",
+    "maxParticipants": 30,
+    "currentParticipants": 10,
+    "status": "OPEN",
+    "lectureDto": {
+      "id": 1,
+      "title": "Clean Architecture",
+      "instructor": "허재"
+    }
+  }
+}
+
+### 2. 강의 신청 상태 확인 (GET 요청)
+GET http://localhost:8080/LectureApply/getLectureApplicationStatus?memberId=1&lectureInstanceId=1
+
+### 3. 강의 신청 수정 (PUT 요청)
+PUT http://localhost:8080/LectureApply/updateLectureApply
+Content-Type: application/json
+
+{
+  "memberDto": {
+    "id": 1,
+    "name": "Member01"
+  },
+  "lectureInstanceDto": {
+    "id": 1,
+    "startDate": "2024-11-01",
+    "endDate": "2024-12-10",
+    "maxParticipants": 30,
+    "currentParticipants": 10,
+    "status": "OPEN",
+    "lectureDto": {
+      "id": 1,
+      "title": "Clean Architecture",
+      "instructor": "허재"
+    }
+  }
+}
+
+### 4. 강의 신청 취소 (DELETE 요청)
+DELETE http://localhost:8080/LectureApply/cancelLectureApplication
+Content-Type: application/json
+
+{
+  "memberDto": {
+    "id": 1,
+    "name": "Member01"
+  },
+  "lectureInstanceDto": {
+    "id": 1,
+    "startDate": "2024-11-01",
+    "endDate": "2024-12-10",
+    "maxParticipants": 30,
+    "currentParticipants": 10,
+    "status": "OPEN",
+    "lectureDto": {
+      "id": 1,
+      "title": "Clean Architecture",
+      "instructor": "허재"
+    }
+  }
+}
+
+### 5. 마감일을 고려한 강의 신청 (POST 요청)
+POST http://localhost:8080/LectureApply/applyForLectureWithDeadline
+Content-Type: application/json
+
+{
+  "memberDto": {
+    "id": 1,
+    "name": "Member01"
+  },
+  "lectureInstanceDto": {
+    "id": 2,
+    "startDate": "2024-11-01",
+    "endDate": "2024-12-10",
+    "maxParticipants": 30,
+    "currentParticipants": 10,
+    "status": "OPEN",
+    "lectureDto": {
+      "id": 1,
+      "title": "Clean Architecture",
+      "instructor": "허재"
+    }
+  }
+}
+
+### 6. 필터를 이용한 강의 신청 내역 조회 (GET 요청) - LectureInstance의 status와 날짜 필터 포함
+GET http://localhost:8080/LectureApply/getLectureApplicationsByFilters?memberId=1&status=OPEN&fromDate=2024-01-01&toDate=2024-12-31
