@@ -1,0 +1,28 @@
+### 1. 강의 추가 (POST 요청)
+POST http://localhost:8080/lectures/addLecture
+Content-Type: application/json
+
+{
+  "id": 3,
+  "title": "Clean Architecture",
+  "instructor": "허재"
+}
+
+### 2. 모든 강의 리스트 조회 (GET 요청)
+GET http://localhost:8080/lectures/getAllLectures
+
+### 3. 특정 강의 조회 (GET 요청)
+GET http://localhost:8080/lectures/getLectureById/1
+
+### 4. 강의 삭제 (DELETE 요청)
+DELETE http://localhost:8080/lectures/deleteLecture/2
+
+### 5. 강의 수정 (PUT 요청)
+PUT http://localhost:8080/lectures/updateLecture
+Content-Type: application/json
+
+{
+  "id": 1,
+  "title": "Updated Clean Architecture",
+  "instructor": "허재"
+}
